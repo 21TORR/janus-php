@@ -1,0 +1,23 @@
+parameters:
+    level: 9
+
+    checkAlwaysTrueCheckTypeFunctionCall: true
+    checkAlwaysTrueInstanceof: true
+    checkAlwaysTrueStrictComparison: true
+    checkDynamicProperties: true
+    checkExplicitMixedMissingReturn: true
+    checkUninitializedProperties: true
+    inferPrivatePropertyTypeFromConstructor: true
+    polluteScopeWithLoopInitialAssignments: false
+    reportPossiblyNonexistentConstantArrayOffset: true
+    reportPossiblyNonexistentGeneralArrayOffset: true
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
+
+    excludePaths:
+        analyse:
+            - %currentWorkingDirectory%/vendor
+        analyseAndScan:
+            - %currentWorkingDirectory%/node_modules
+            - %currentWorkingDirectory%/var
+            - %currentWorkingDirectory%/vendor-bin

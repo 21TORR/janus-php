@@ -24,6 +24,9 @@
 		"friendsofphp/php-cs-fixer": "^3.41",
 		"roave/security-advisories": "dev-latest"
 	},
+	"bin": [
+		"bin/janus"
+	],
 	"config": {
 		"sort-packages": true,
 		"allow-plugins": {

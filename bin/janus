@@ -40,6 +40,7 @@ $allowedCommands = [
 				return match ($command)
 				{
 					"init-symfony" => initializeSymfony($io),
+					"init-library" => initializeLibrary($io),
 					null => printUsage(),
 					default => printError($io, "Unknown command: {$command}"),
 				};
@@ -57,6 +58,8 @@ return;
 
 
 // region Commands
+/**
+ */
 function initializeSymfony (SymfonyStyle $io) : int
 {
 	$io->writeln("• Copying config files to the project...");
@@ -98,7 +101,53 @@ function initializeSymfony (SymfonyStyle $io) : int
 		],
 	]);
 
-	//copyFilesIntoProject($io, "symfony/.");
+	$io->writeln("• Running <fg=blue>composer update</>...");
+	runComposerInProject($io, ["update"]);
+
+	return 0;
+}
+
+/**
+ */
+function initializeLibrary (SymfonyStyle $io) : int
+{
+	$io->writeln("• Copying config files to the project...");
+	copyFilesIntoProject($io, "library");
+
+	$io->writeln("• Updating <fg=yellow>composer.json</>...");
+	addToProjectComposerJson([
+		"config" => [
+			"allow-plugins" => [
+				"bamarni/composer-bin-plugin" => true,
+			],
+			"sort-packages" => true,
+		],
+		"extra" => [
+			"bamarni-bin" => [
+				"bin-links" => false,
+				"forward-command" => true,
+			],
+		],
+		"require-dev" => [
+			"bamarni/composer-bin-plugin" => "*",
+			"roave/security-advisories" => "dev-latest",
+		],
+		"scripts" => [
+			"fix-lint" => [
+				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
+				"@composer bin c-norm normalize \"$(pwd)/composer.json\"  --indent-style tab --indent-size 1 --ansi",
+			],
+			"lint" => [
+				"@composer bin c-norm normalize \"$(pwd)/composer.json\"  --indent-style tab --indent-size 1 --dry-run --ansi",
+				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi",
+			],
+			"test" => [
+				"phpunit",
+				"vendor-bin/test/vendor/bin/phpstan analyze -c phpstan.neon . --ansi",
+			],
+		],
+	]);
+
 	$io->writeln("• Running <fg=blue>composer update</>...");
 	runComposerInProject($io, ["update"]);
 

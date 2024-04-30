@@ -1,5 +1,6 @@
 {
-    "require-dev": {
-        "21torr/php-cs-fixer": "^1.0"
-    }
+	"require-dev": {
+		"21torr/php-cs-fixer": "^1.0",
+		"roave/security-advisories": "dev-latest"
+	}
 }

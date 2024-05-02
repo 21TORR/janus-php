@@ -1,3 +1,9 @@
+1.1.1 (unreleased)
+=====
+
+* (improvement) Remove duplicate space in command.
+
+
 1.1.0
 =====
 

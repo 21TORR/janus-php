@@ -86,12 +86,12 @@ function initializeSymfony (SymfonyStyle $io) : int
 		"scripts" => [
 			"fix-lint" => [
 				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
-				"@composer bin c-norm normalize \"$(pwd)/composer.json\"  --indent-style tab --indent-size 1 --ansi",
+				"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
 			],
 			"lint" => [
 				"bin/console lint:yaml config --parse-tags",
 				"bin/console lint:twig templates",
-				"@composer bin c-norm normalize \"$(pwd)/composer.json\"  --indent-style tab --indent-size 1 --dry-run --ansi",
+				"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
 				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi",
 			],
 			"test" => [
@@ -134,10 +134,10 @@ function initializeLibrary (SymfonyStyle $io) : int
 		"scripts" => [
 			"fix-lint" => [
 				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
-				"@composer bin c-norm normalize \"$(pwd)/composer.json\"  --indent-style tab --indent-size 1 --ansi",
+				"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
 			],
 			"lint" => [
-				"@composer bin c-norm normalize \"$(pwd)/composer.json\"  --indent-style tab --indent-size 1 --dry-run --ansi",
+				"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
 				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi",
 			],
 			"test" => [

@@ -9,8 +9,9 @@ parameters:
     checkUninitializedProperties: true
     inferPrivatePropertyTypeFromConstructor: true
     polluteScopeWithLoopInitialAssignments: false
-    reportPossiblyNonexistentConstantArrayOffset: true
-    reportPossiblyNonexistentGeneralArrayOffset: true
+    # as soon as PHPStan 1.11 is released
+    # reportPossiblyNonexistentConstantArrayOffset: true
+    # reportPossiblyNonexistentGeneralArrayOffset: true
     reportUnmatchedIgnoredErrors: false
     treatPhpDocTypesAsCertain: false
 

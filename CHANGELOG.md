@@ -3,6 +3,7 @@
 
 * (bug) Fix invalid path to phpstan executable.
 * (bug) Remove obsolete PHP-CS-Fixer installation in `phpstan` bin.
+* (improvement) Bump required versions.
  
 
 1.0.0

@@ -1,7 +1,9 @@
-1.1.1 (unreleased)
+1.2.0
 =====
 
 * (improvement) Remove duplicate space in command.
+* (improvement) Bump PHPStan 
+* (feature) Add PHPUnit extension for PHPStan
 
 
 1.1.0

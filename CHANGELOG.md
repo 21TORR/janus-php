@@ -1,7 +1,8 @@
-1.2.1
+1.3.0
 =====
 
 * (internal) Clean up internal call definitions.
+* (feature) Improve merging of `composer.json` scripts.
 
 
 1.2.0

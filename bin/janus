@@ -81,21 +81,19 @@ function initializeSymfony (SymfonyStyle $io) : int
 			"bamarni/composer-bin-plugin" => "^1.8",
 			"roave/security-advisories" => "dev-latest",
 		],
-		"scripts" => [
-			"fix-lint" => [
-				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
-				"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
-			],
-			"lint" => [
-				"bin/console lint:yaml config --parse-tags",
-				"bin/console lint:twig templates",
-				"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
-				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi",
-			],
-			"test" => [
-				"vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi",
-			],
-		],
+	]);
+	updateProjectComposerJsonScripts("fix-lint", [
+		"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
+		"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
+	]);
+	updateProjectComposerJsonScripts("lint", [
+		"lint:yaml" => "bin/console lint:yaml config --parse-tags",
+		"lint:twig" => "bin/console lint:twig templates",
+		"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
+		"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi",
+	]);
+	updateProjectComposerJsonScripts("test", [
+		"phpstan" => "vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi",
 	]);
 
 	$io->writeln("• Running <fg=blue>composer update</>...");
@@ -103,6 +101,7 @@ function initializeSymfony (SymfonyStyle $io) : int
 
 	return 0;
 }
+
 
 /**
  */
@@ -129,19 +128,17 @@ function initializeLibrary (SymfonyStyle $io) : int
 			"bamarni/composer-bin-plugin" => "^1.8",
 			"roave/security-advisories" => "dev-latest",
 		],
-		"scripts" => [
-			"fix-lint" => [
-				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
-				"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
-			],
-			"lint" => [
-				"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
-				"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi",
-			],
-			"test" => [
-				"vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi",
-			],
-		],
+	]);
+	updateProjectComposerJsonScripts("fix-lint", [
+		"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
+		"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
+	]);
+	updateProjectComposerJsonScripts("lint", [
+		"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
+		"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi",
+	]);
+	updateProjectComposerJsonScripts("test", [
+		"phpstan" => "vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi",
 	]);
 
 	$io->writeln("• Running <fg=blue>composer update</>...");
@@ -221,6 +218,63 @@ function addToProjectComposerJson (array $config) : void
 	);
 
 	$jsonContent = array_replace_recursive($jsonContent, $config);
+	file_put_contents(
+		$filePath,
+		json_encode(
+			$jsonContent,
+			JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES,
+			JSON_THROW_ON_ERROR
+		),
+	);
+}
+
+/**
+ * Takes a list of scripts to replace and updates the configs.
+ *
+ * The $scripts array has a keywords as key, and replaces the line containing that keyword.
+ * So for example the key "phpunit" would replace the line that contains "phpunit".
+ * If there are multiple lines matching, all will be replaced.
+ * If there are no lines matching, the call will just be appended.
+ *
+ *
+ * @param string $key The scripts key to update.
+ * @param array<string, string> $scripts The scripts to replace.
+ */
+function updateProjectComposerJsonScripts (string $key, array $scripts) : void
+{
+	$filePath = getcwd() . "/composer.json";
+
+	$jsonContent = json_decode(
+		file_get_contents($filePath),
+		true,
+		flags: JSON_THROW_ON_ERROR
+	);
+
+	$existingScripts = $jsonContent["scripts"][$key] ?? [];
+	// keep existing scripts
+	$result = [];
+
+	foreach ($existingScripts as $line)
+	{
+		foreach ($scripts as $replacedKeyword => $newLine)
+		{
+			if (str_contains($line, $replacedKeyword))
+			{
+				continue 2;
+			}
+		}
+
+		// append the line if no replacement matches
+		$result[] = $line;
+	}
+
+	// append all new lines
+	foreach ($scripts as $newLine)
+	{
+		$result[] = $newLine;
+	}
+
+	$jsonContent["scripts"][$key] = $result;
 	file_put_contents(
 		$filePath,
 		json_encode(

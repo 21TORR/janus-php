@@ -16,9 +16,7 @@ require_once $_composer_autoload_path ?? (__DIR__ . '/../vendor/autoload.php');
 $input = new ArgvInput();
 $output = new ConsoleOutput();
 
-$allowedCommands = [
-	"init-symfony" => null,
-];
+$allowedCommands = ["init-symfony", "init-library"];
 
 
 (new SingleCommandApplication())
@@ -26,7 +24,7 @@ $allowedCommands = [
 	->addArgument(
 		"command",
 		InputArgument::REQUIRED,
-		suggestedValues: array_keys($allowedCommands),
+		suggestedValues: $allowedCommands,
 	)
 	->setCode(
 		function (InputInterface $input, OutputInterface $output) : int
@@ -248,7 +246,7 @@ function printError (SymfonyStyle $io, string $message) : int
 	$io->listing(
 		array_map(
 			static fn (string $command) => "<fg=yellow>{$command}</>",
-			array_keys($allowedCommands),
+			$allowedCommands,
 		),
 	);
 

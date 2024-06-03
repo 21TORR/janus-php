@@ -1,3 +1,9 @@
+1.2.1
+=====
+
+* (internal) Clean up internal call definitions.
+
+
 1.2.0
 =====
 

@@ -1,15 +1,15 @@
 {
 	"name": "21torr/janus",
-	"type": "lib",
 	"description": "Code style, encoded as rules for common tools.",
-	"homepage": "https://github.com/21TORR/janus-php",
 	"license": "BSD-3-Clause",
+	"type": "lib",
 	"authors": [
 		{
 			"name": "21TORR",
 			"homepage": "https://www.21torr.com/"
 		}
 	],
+	"homepage": "https://github.com/21TORR/janus-php",
 	"require": {
 		"php": ">= 8.3",
 		"21torr/cli": "^1.2",
@@ -17,21 +17,42 @@
 		"symfony/process": "^7.0"
 	},
 	"require-dev": {
+		"bamarni/composer-bin-plugin": "^1.8",
 		"roave/security-advisories": "dev-latest"
 	},
-	"bin": [
-		"bin/janus"
-	],
 	"autoload": {
 		"psr-4": {
 			"Janus\\": "src/"
 		}
 	},
+	"bin": [
+		"bin/janus"
+	],
 	"config": {
-		"sort-packages": true,
 		"allow-plugins": {
+			"bamarni/composer-bin-plugin": true,
 			"ergebnis/composer-normalize": true,
 			"phpstan/extension-installer": true
+		},
+		"sort-packages": true
+	},
+	"extra": {
+		"bamarni-bin": {
+			"bin-links": false,
+			"forward-command": true
 		}
+	},
+	"scripts": {
+		"fix-lint": [
+			"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
+			"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi"
+		],
+		"lint": [
+			"@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
+			"vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi"
+		],
+		"test": [
+			"vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi"
+		]
 	}
 }

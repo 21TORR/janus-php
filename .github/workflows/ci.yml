@@ -27,6 +27,15 @@ jobs:
                     php --version
                     php -r 'foreach (get_loaded_extensions() as $extension) echo $extension . " " . phpversion($extension) . PHP_EOL;'
 
+            -   name: Install Composer
+                run: composer install --optimize-autoloader --classmap-authoritative --no-interaction
+
+            -   name: Run Linters
+                run: composer run-script lint
+
+            -   name: Run Tests
+                run: composer run-script test
+
             -   name: "Install Composer: Library / Composer Normalize"
                 run: composer install --optimize-autoloader --classmap-authoritative --no-interaction
                 working-directory: _init/library/vendor-bin/c-norm

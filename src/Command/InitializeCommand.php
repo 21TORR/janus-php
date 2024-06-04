@@ -22,7 +22,7 @@ final class InitializeCommand extends Command
 	/**
 	 * @inheritDoc
 	 */
-	protected function configure ()
+	protected function configure () : void
 	{
 		$this
 			->setDescription("Initializes a given command")
@@ -30,6 +30,7 @@ final class InitializeCommand extends Command
 				"type",
 				InputArgument::REQUIRED,
 				"The project type to initialize",
+				default: null,
 				suggestedValues: [
 					"symfony",
 					"library",
@@ -45,10 +46,10 @@ final class InitializeCommand extends Command
 		$io = new TorrStyle($input, $output);
 		$io->title("Janus: Initialize");
 
-
 		try
 		{
 			$type = $input->getArgument("type");
+			\assert(\is_string($type));
 
 			$initializer = match ($type)
 			{

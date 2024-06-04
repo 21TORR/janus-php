@@ -1,3 +1,12 @@
+2.0.0
+=====
+
+* (bc) Renamed the call from `init-symfony` to `init symfony`.
+* (bc) Renamed the call from `init-library` to `init library`.
+* (internal) Refactored whole implementation.
+* (internal) Run CI on Janus itself.
+
+
 1.3.0
 =====
 

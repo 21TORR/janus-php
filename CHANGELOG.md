@@ -1,4 +1,4 @@
-1.4.0
+1.3.0
 =====
 
 * (feature) Rename the call from `init-symfony` to `init symfony`.
@@ -7,11 +7,6 @@
 * (feature) Add choice for when calling `init` without or with invalid type.
 * (internal) Refactored whole implementation.
 * (internal) Run CI on Janus itself.
-
-
-1.3.0
-=====
-
 * (internal) Clean up internal call definitions.
 * (feature) Improve merging of `composer.json` scripts.
 

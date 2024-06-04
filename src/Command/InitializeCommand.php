@@ -60,8 +60,13 @@ final class InitializeCommand extends Command
 
 		$type = $input->getArgument("type");
 
-		while (!\in_array($type, self::ALLOWED_TYPES, true))
+		if (!\in_array($type, self::ALLOWED_TYPES, true))
 		{
+			if (null !== $type)
+			{
+				$io->error("Used invalid type: {$type}");
+			}
+
 			$type = $io->choice("Please select the type to initialize", self::ALLOWED_TYPES);
 		}
 

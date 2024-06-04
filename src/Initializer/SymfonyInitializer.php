@@ -43,7 +43,7 @@ final readonly class SymfonyInitializer
 			"lint:yaml" => "bin/console lint:yaml config --parse-tags",
 			"lint:twig" => "bin/console lint:twig templates",
 			"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
-			"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --dry-run --no-interaction --ansi",
+			"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer check --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
 		]);
 		$helper->updateProjectComposerJsonScripts("test", [
 			"phpstan" => "vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi",

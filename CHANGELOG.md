@@ -1,9 +1,3 @@
-1.3.2
-=====
-
-* (bug) Remove breaking rule.
-
-
 1.3.1
 =====
 

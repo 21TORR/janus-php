@@ -2,7 +2,6 @@
 <?php
 
 use Janus\Command\InitializeCommand;
-use Janus\Command\LegacyCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -16,5 +15,4 @@ $allowedCommands = ["init-symfony", "init-library"];
 
 $application = new Application("Janus");
 $application->add(new InitializeCommand());
-$application->add(new LegacyCommand());
 $application->run();

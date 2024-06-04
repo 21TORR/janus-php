@@ -1,7 +1,7 @@
 1.3.2
 =====
 
-* (improvements) Add commented code about PHPStan usage with PHPUnit.
+* (improvement) Add commented code about PHPStan usage with PHPUnit.
 
 
 1.3.1

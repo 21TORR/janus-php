@@ -1,3 +1,10 @@
+1.3.1
+=====
+
+* (improvement) Bump required PHP-CS-Fixer versions.
+* (improvement) Make PHP-CS-Fixer script calls clearer.
+
+
 1.3.0
 =====
 

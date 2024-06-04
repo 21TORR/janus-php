@@ -84,6 +84,7 @@ final class InitializeCommand extends Command
 		catch (\Throwable $exception)
 		{
 			$io->error("Running janus failed: {$exception->getMessage()}");
+
 			return 2;
 		}
 	}

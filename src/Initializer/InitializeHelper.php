@@ -18,7 +18,7 @@ final readonly class InitializeHelper
 		private TorrStyle $io,
 	)
 	{
-		$this->cwd = (string) \getcwd();
+		$this->cwd = (string) getcwd();
 	}
 
 	/**
@@ -35,7 +35,6 @@ final readonly class InitializeHelper
 			".",
 		]);
 	}
-
 
 	/**
 	 * Add the given config to the projects composer.json
@@ -60,8 +59,8 @@ final readonly class InitializeHelper
 	 * If there are multiple lines matching, all will be replaced.
 	 * If there are no lines matching, the call will just be appended.
 	 *
-	 * @param string                $key     The scripts key to update.
-	 * @param array<string, string> $scripts The scripts to replace.
+	 * @param string                $key     the scripts key to update
+	 * @param array<string, string> $scripts the scripts to replace
 	 */
 	public function updateProjectComposerJsonScripts (string $key, array $scripts) : void
 	{
@@ -107,7 +106,7 @@ final readonly class InitializeHelper
 
 		file_put_contents(
 			$filePath,
-			\json_encode(
+			json_encode(
 				$config,
 				\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR,
 			),
@@ -121,15 +120,15 @@ final readonly class InitializeHelper
 	{
 		$filePath = "{$this->cwd}/composer.json";
 
-		$result = \json_decode(
-			(string) \file_get_contents($filePath),
+		$result = json_decode(
+			(string) file_get_contents($filePath),
 			true,
 			flags: \JSON_THROW_ON_ERROR,
 		);
 		\assert(\is_array($result));
+
 		return $result;
 	}
-
 
 	/**
 	 * Runs a composer command in the project
@@ -150,7 +149,6 @@ final readonly class InitializeHelper
 		$cmd[] = "--ansi";
 		$this->runProcessInProject($cmd);
 	}
-
 
 	/**
 	 * Runs the given command in the project directory
@@ -180,5 +178,4 @@ final readonly class InitializeHelper
 			);
 		}
 	}
-
 }

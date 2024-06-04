@@ -59,6 +59,7 @@ final class InitializeCommand extends Command
 		}
 
 		$type = $input->getArgument("type");
+		\assert(null === $type || \is_string($type));
 
 		if (!\in_array($type, self::ALLOWED_TYPES, true))
 		{
@@ -74,33 +75,16 @@ final class InitializeCommand extends Command
 
 		try
 		{
-			$initializer = match ($type)
+			return match ($type)
 			{
-				"symfony" => new SymfonyInitializer(),
-				"library" => new LibraryInitializer(),
+				"symfony" => (new SymfonyInitializer())->initialize($io),
+				"library" => (new LibraryInitializer())->initialize($io),
 			};
-
-			if (null === $initializer)
-			{
-				return $this->printError($io, $type);
-			}
-
-			return $initializer->initialize($io);
 		}
 		catch (\Throwable $exception)
 		{
 			$io->error("Running janus failed: {$exception->getMessage()}");
 			return 2;
 		}
-	}
-
-	/**
-	 * Prints an error
-	 */
-	private function printError (TorrStyle $io, string $type) : int
-	{
-		$io->error("Unknown type: {$type}");
-
-		return self::FAILURE;
 	}
 }

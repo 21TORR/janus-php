@@ -18,7 +18,7 @@ final readonly class InitializeHelper
 		private TorrStyle $io,
 	)
 	{
-		$this->cwd = \getcwd();
+		$this->cwd = (string) \getcwd();
 	}
 
 	/**
@@ -39,6 +39,8 @@ final readonly class InitializeHelper
 
 	/**
 	 * Add the given config to the projects composer.json
+	 *
+	 * @param array<array-key, mixed> $config
 	 */
 	public function addToProjectComposerJson (array $config) : void
 	{
@@ -58,13 +60,14 @@ final readonly class InitializeHelper
 	 * If there are multiple lines matching, all will be replaced.
 	 * If there are no lines matching, the call will just be appended.
 	 *
-	 *
-	 * @param string $key The scripts key to update.
+	 * @param string                $key     The scripts key to update.
 	 * @param array<string, string> $scripts The scripts to replace.
 	 */
-	function updateProjectComposerJsonScripts (string $key, array $scripts) : void
+	public function updateProjectComposerJsonScripts (string $key, array $scripts) : void
 	{
 		$jsonContent = $this->readProjectComposerJson();
+		\assert(!isset($jsonContent["scripts"]) || \is_array($jsonContent["scripts"]));
+
 		$existingScripts = $jsonContent["scripts"][$key] ?? [];
 		// keep existing scripts
 		$result = [];
@@ -94,6 +97,9 @@ final readonly class InitializeHelper
 	}
 
 	/**
+	 * Writes the given config to the project composer.json
+	 *
+	 * @param array<array-key, mixed> $config
 	 */
 	private function writeProjectComposerJson (array $config) : void
 	{
@@ -109,21 +115,26 @@ final readonly class InitializeHelper
 	}
 
 	/**
+	 * @return array<array-key, mixed>
 	 */
 	private function readProjectComposerJson () : array
 	{
 		$filePath = "{$this->cwd}/composer.json";
 
-		return \json_decode(
-			\file_get_contents($filePath),
+		$result = \json_decode(
+			(string) \file_get_contents($filePath),
 			true,
-			flags: \JSON_THROW_ON_ERROR
+			flags: \JSON_THROW_ON_ERROR,
 		);
+		\assert(\is_array($result));
+		return $result;
 	}
 
 
 	/**
 	 * Runs a composer command in the project
+	 *
+	 * @param string[] $cmd
 	 */
 	public function runComposerInProject (array $cmd) : void
 	{
@@ -143,6 +154,8 @@ final readonly class InitializeHelper
 
 	/**
 	 * Runs the given command in the project directory
+	 *
+	 * @param string[] $cmd
 	 */
 	public function runProcessInProject (array $cmd) : void
 	{

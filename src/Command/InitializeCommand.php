@@ -12,6 +12,15 @@ use Torr\Cli\Console\Style\TorrStyle;
 
 final class InitializeCommand extends Command
 {
+	private const array ALLOWED_TYPES = [
+		"symfony",
+		"library",
+	];
+	private const array LEGACY_COMMANDS = [
+		"init-symfony",
+		"init-library",
+	];
+
 	/**
 	 */
 	public function __construct ()
@@ -22,18 +31,17 @@ final class InitializeCommand extends Command
 	/**
 	 * @inheritDoc
 	 */
-	protected function configure ()
+	protected function configure () : void
 	{
 		$this
 			->setDescription("Initializes a given command")
+			->setAliases(self::LEGACY_COMMANDS)
 			->addArgument(
 				"type",
-				InputArgument::REQUIRED,
+				InputArgument::OPTIONAL,
 				"The project type to initialize",
-				suggestedValues: [
-					"symfony",
-					"library",
-				],
+				default: null,
+				suggestedValues: self::ALLOWED_TYPES,
 			);
 	}
 
@@ -45,39 +53,38 @@ final class InitializeCommand extends Command
 		$io = new TorrStyle($input, $output);
 		$io->title("Janus: Initialize");
 
+		if (\in_array($input->getFirstArgument(), self::LEGACY_COMMANDS, true))
+		{
+			$io->caution("You are using a deprecated command. Use the `init` command instead.");
+		}
+
+		$type = $input->getArgument("type");
+		\assert(null === $type || \is_string($type));
+
+		if (!\in_array($type, self::ALLOWED_TYPES, true))
+		{
+			if (null !== $type)
+			{
+				$io->error("Used invalid type: {$type}");
+			}
+
+			$type = $io->choice("Please select the type to initialize", self::ALLOWED_TYPES);
+		}
+
+		\assert(\is_string($type));
 
 		try
 		{
-			$type = $input->getArgument("type");
-
-			$initializer = match ($type)
+			return match ($type)
 			{
-				"symfony" => new SymfonyInitializer(),
-				"library" => new LibraryInitializer(),
-				default => null,
+				"symfony" => (new SymfonyInitializer())->initialize($io),
+				"library" => (new LibraryInitializer())->initialize($io),
 			};
-
-			if (null === $initializer)
-			{
-				return $this->printError($io, $type);
-			}
-
-			return $initializer->initialize($io);
 		}
 		catch (\Throwable $exception)
 		{
 			$io->error("Running janus failed: {$exception->getMessage()}");
 			return 2;
 		}
-	}
-
-	/**
-	 * Prints an error
-	 */
-	private function printError (TorrStyle $io, string $type) : int
-	{
-		$io->error("Unknown type: {$type}");
-
-		return self::FAILURE;
 	}
 }

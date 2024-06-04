@@ -1,3 +1,14 @@
+1.4.0
+=====
+
+* (feature) Rename the call from `init-symfony` to `init symfony`.
+* (feature) Rename the call from `init-library` to `init library`.
+* (feature) Add BC layer for old commands.
+* (feature) Add choice for when calling `init` without or with invalid type.
+* (internal) Refactored whole implementation.
+* (internal) Run CI on Janus itself.
+
+
 1.3.0
 =====
 

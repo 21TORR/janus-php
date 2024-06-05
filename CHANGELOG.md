@@ -1,7 +1,8 @@
 1.3.3 (unreleased)
 =====
 
-- (improvement) Add `-v` flag to PHPStan call to also show the error identifiers.
+* (improvement) Add `-v` flag to PHPStan call to also show the error identifiers.
+* (improvement) Add editor URL to PHPStan config.
 
 
 1.3.2

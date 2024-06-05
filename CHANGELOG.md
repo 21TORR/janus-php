@@ -1,3 +1,9 @@
+1.3.3 (unreleased)
+=====
+
+- (improvement) Add `-v` flag to PHPStan call to also show the error identifiers.
+
+
 1.3.2
 =====
 

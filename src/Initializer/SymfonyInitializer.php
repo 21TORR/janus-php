@@ -46,7 +46,7 @@ final readonly class SymfonyInitializer
 			"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer check --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
 		]);
 		$helper->updateProjectComposerJsonScripts("test", [
-			"phpstan" => "vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi",
+			"phpstan" => "vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi -v",
 		]);
 
 		$io->writeln("• Running <fg=blue>composer update</>...");

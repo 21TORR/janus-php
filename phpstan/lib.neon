@@ -1,6 +1,8 @@
 parameters:
     level: 9
 
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+
     checkAlwaysTrueCheckTypeFunctionCall: true
     checkAlwaysTrueInstanceof: true
     checkAlwaysTrueStrictComparison: true

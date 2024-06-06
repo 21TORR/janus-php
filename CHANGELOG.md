@@ -1,3 +1,9 @@
+1.3.4
+=====
+
+* (improvement) Automatically ignore all PHPStorm attributes-related errors in PHPStan.
+
+
 1.3.3
 =====
 

@@ -24,6 +24,7 @@ parameters:
 			- %currentWorkingDirectory%/vendor-bin
 
 	ignoreErrors:
+		- message: "#^Attribute class JetBrains\\\\PhpStorm\\\\.*? does not exist\\.$#"
 		- identifier: missingType.iterableValue
 		-
 			identifier: argument.type

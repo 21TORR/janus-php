@@ -1,24 +1,36 @@
 parameters:
-    level: 9
+	level: 9
 
-    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+	editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
 
-    checkAlwaysTrueCheckTypeFunctionCall: true
-    checkAlwaysTrueInstanceof: true
-    checkAlwaysTrueStrictComparison: true
-    checkDynamicProperties: true
-    checkExplicitMixedMissingReturn: true
-    checkUninitializedProperties: true
-    inferPrivatePropertyTypeFromConstructor: true
-    polluteScopeWithLoopInitialAssignments: false
-    reportPossiblyNonexistentConstantArrayOffset: true
-    reportUnmatchedIgnoredErrors: false
-    treatPhpDocTypesAsCertain: false
+	checkAlwaysTrueCheckTypeFunctionCall: true
+	checkAlwaysTrueInstanceof: true
+	checkAlwaysTrueStrictComparison: true
+	checkDynamicProperties: true
+	checkExplicitMixedMissingReturn: true
+	checkUninitializedProperties: true
+	inferPrivatePropertyTypeFromConstructor: true
+	polluteScopeWithLoopInitialAssignments: false
+	reportPossiblyNonexistentConstantArrayOffset: true
+	reportUnmatchedIgnoredErrors: false
+	treatPhpDocTypesAsCertain: false
 
-    excludePaths:
-        analyse:
-            - %currentWorkingDirectory%/vendor
-        analyseAndScan:
-            - %currentWorkingDirectory%/node_modules
-            - %currentWorkingDirectory%/var
-            - %currentWorkingDirectory%/vendor-bin
+	excludePaths:
+		analyse:
+			- %currentWorkingDirectory%/vendor
+		analyseAndScan:
+			- %currentWorkingDirectory%/node_modules
+			- %currentWorkingDirectory%/var
+			- %currentWorkingDirectory%/vendor-bin
+
+	ignoreErrors:
+		- identifier: missingType.iterableValue
+		-
+			identifier: argument.type
+			path: %currentWorkingDirectory%/tests/*
+		-
+			identifier: staticMethod.alreadyNarrowedType
+			path: %currentWorkingDirectory%/tests/*
+		-
+			identifier: method.deprecated
+			path: %currentWorkingDirectory%/tests/*

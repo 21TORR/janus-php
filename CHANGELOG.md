@@ -3,6 +3,8 @@
 
 * (improvement) Add `-v` flag to PHPStan call to also show the error identifiers.
 * (improvement) Add editor URL to PHPStan config.
+* (improvement) Disable certain PHPStan checks for tests.
+* (improvement) Disable `missingType.iterableValue` PHPStan check globally.
 
 
 1.3.2

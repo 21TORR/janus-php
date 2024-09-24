@@ -1,3 +1,9 @@
+1.3.5
+=====
+
+* (improvement) Add proper support for DQL types in PHPStan Doctrine.
+
+
 1.3.4
 =====
 

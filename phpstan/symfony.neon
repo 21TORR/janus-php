@@ -4,3 +4,9 @@ includes:
 parameters:
 	symfony:
 		container_xml_path: %currentWorkingDirectory%/var/cache/dev/App_KernelDevDebugContainer.xml
+
+	ignoreErrors:
+		# We will always have the issue, that the type of the prop and the database type won't match,
+		# as we validate in between and PHPStan can't know that. So let's just deactivate it.
+		- identifier: doctrine.columnType
+

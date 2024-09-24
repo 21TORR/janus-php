@@ -1,8 +1,12 @@
 includes:
 	- vendor/21torr/janus/phpstan/symfony.neon
 
+
+parameters:
+	doctrine:
+		objectManagerLoader: tests/phpstan-doctrine-object-manager.php
+
 # If you use simple-phpunit, you need to uncomment the following line.
 # Always make sure to first run simple-phpunit and then PHPStan.
-# parameters:
 #	bootstrapFiles:
 #		- vendor/bin/.phpunit/phpunit/vendor/autoload.php

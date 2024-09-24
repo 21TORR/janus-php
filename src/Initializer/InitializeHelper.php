@@ -157,7 +157,7 @@ final readonly class InitializeHelper
 	 */
 	public function runProcessInProject (array $cmd) : void
 	{
-		$this->io->writeln(sprintf(
+		$this->io->writeln(\sprintf(
 			"$> Running command <fg=blue>%s</>",
 			implode(" ", $cmd),
 		));
@@ -168,12 +168,12 @@ final readonly class InitializeHelper
 		);
 		$process->mustRun();
 
-		$output = trim(sprintf("%s\n%s", $process->getErrorOutput(), $process->getOutput()));
+		$output = trim(\sprintf("%s\n%s", $process->getErrorOutput(), $process->getOutput()));
 
 		if ("" !== $output)
 		{
 			$this->io->block(
-				trim(sprintf("%s\n%s", $process->getErrorOutput(), $process->getOutput())),
+				trim(\sprintf("%s\n%s", $process->getErrorOutput(), $process->getOutput())),
 				prefix: "  │  ",
 			);
 		}

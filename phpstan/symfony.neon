@@ -10,3 +10,7 @@ parameters:
 		# as we validate in between and PHPStan can't know that. So let's just deactivate it.
 		- identifier: doctrine.columnType
 
+		# Let's ignore return types of Storyblok stories for now
+		-
+			identifier: return.type
+			path: %currentWorkingDirectory%/src/Storyblok/Component/*Story.php

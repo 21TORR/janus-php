@@ -1,2 +1,7 @@
 includes:
-    - phpstan/lib.neon
+	- phpstan/lib.neon
+
+parameters:
+	excludePaths:
+		analyseAndScan:
+			- _init/symfony/tests/phpstan-doctrine-object-manager.php

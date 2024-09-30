@@ -1,7 +1,7 @@
-1.3.5
+1.4.0
 =====
 
-* (improvement) Add proper support for DQL types in PHPStan Doctrine.
+* (feature) Add proper support for DQL types in PHPStan Doctrine.
 * (improvement) Ignore return type of Storyblok stories for now.
 
 

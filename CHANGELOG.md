@@ -1,3 +1,9 @@
+1.4.1 (unreleased)
+=====
+
+* (improvement) Automatically set `PHP_CS_FIXER_IGNORE_ENV=1` for CS Fixer calls.
+
+
 1.4.0
 =====
 

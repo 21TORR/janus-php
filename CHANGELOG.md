@@ -1,3 +1,9 @@
+1.5.1
+=====
+
+* (bug) Fix invalid commented code in `phpstan.neon`.
+
+
 1.5.0
 =====
 

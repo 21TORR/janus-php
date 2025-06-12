@@ -5,3 +5,14 @@ parameters:
 	excludePaths:
 		analyseAndScan:
 			- _init/symfony/tests/phpstan-doctrine-object-manager.php
+
+			# These are temporarily copied here, as normally they should be in the lib.neon of janus.
+			# However, due to a bug in PHPStan, this currently doesn't work (https://github.com/phpstan/phpstan/issues/12844)
+			- node_modules (?)
+			- var (?)
+			- vendor-bin
+
+		# These are temporarily copied here, as normally they should be in the lib.neon of janus.
+		# However, due to a bug in PHPStan, this currently doesn't work (https://github.com/phpstan/phpstan/issues/12844)
+		analyse:
+			- vendor

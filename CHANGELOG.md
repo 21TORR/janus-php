@@ -1,7 +1,8 @@
-1.4.1 (unreleased)
+1.5.0
 =====
 
 * (improvement) Automatically set `PHP_CS_FIXER_IGNORE_ENV=1` for CS Fixer calls.
+* (feature) Bump to PHPStan v2.
 
 
 1.4.0

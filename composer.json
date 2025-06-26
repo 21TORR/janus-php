@@ -2,7 +2,7 @@
 	"name": "21torr/janus",
 	"description": "Code style, encoded as rules for common tools.",
 	"license": "BSD-3-Clause",
-	"type": "lib",
+	"type": "composer-plugin",
 	"authors": [
 		{
 			"name": "21TORR",
@@ -12,12 +12,14 @@
 	"homepage": "https://github.com/21TORR/janus-php",
 	"require": {
 		"php": ">= 8.4",
+		"composer-plugin-api": "^2.6",
 		"21torr/cli": "^1.2.3",
 		"symfony/console": "^7.3",
 		"symfony/process": "^7.3"
 	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.8.2",
+		"composer/composer": "^2.8.9",
 		"roave/security-advisories": "dev-latest"
 	},
 	"autoload": {
@@ -40,7 +42,8 @@
 		"bamarni-bin": {
 			"bin-links": false,
 			"forward-command": true
-		}
+		},
+		"class": "Janus\\Composer\\JanusPlugin"
 	},
 	"scripts": {
 		"fix-lint": [

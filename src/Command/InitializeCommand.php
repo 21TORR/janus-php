@@ -7,12 +7,13 @@ use Janus\Initializer\SymfonyInitializer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Torr\Cli\Console\Style\TorrStyle;
 
 final class InitializeCommand extends Command
 {
-	private const array ALLOWED_TYPES = [
+	public const array ALLOWED_TYPES = [
 		"symfony",
 		"library",
 	];

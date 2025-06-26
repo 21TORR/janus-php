@@ -14,7 +14,9 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Janus\Command\InitializeCommand;
-use Janus\Type\PackageType;
+use Janus\Exception\ComposerNotFoundException;
+use Janus\Package\PackageType;
+use Janus\Project\ProjectHelper;
 use Symfony\Component\Process\Process;
 
 /**
@@ -96,8 +98,9 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 		$io = $event->getIO();
 		$io->write("\n<fg=magenta>Janus update detected, running janus update</>\n");
 
+		// please note, that the detection can fail: composer defaults to "library", if it's not set
 		$packageType = PackageType::tryFromComposerType(
-			$event->getComposer()->getPackage()->getType()
+			$event->getComposer()->getPackage()->getType(),
 		);
 
 		if (null === $packageType)
@@ -131,6 +134,7 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 			$io->writeError("\n<fg=red>Janus installation failed, please run it manually: `composer exec janus init`</>\n");
 		}
 	}
+
 
 	/**
 	 * Runs Janus

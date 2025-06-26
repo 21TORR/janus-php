@@ -1,6 +1,9 @@
-1.6.0
+2.0.0
 =====
 
+* (bc) Remove deprecated init commands
+* (feature) Automatically detect the package type according to the type in `composer.json`.
+* (feature) Write back the package type, if none was set.
 * (improvement) Add option to not automatically run `composer update` after Janus finished.
 * (feature) Add composer plugin to run composer automatically.
 

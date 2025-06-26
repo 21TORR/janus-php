@@ -97,6 +97,6 @@ class ComposerJson
 	 */
 	public function hasType () : bool
 	{
-		return array_key_exists("type", $this->content);
+		return \array_key_exists("type", $this->content);
 	}
 }

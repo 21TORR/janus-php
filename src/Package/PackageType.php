@@ -7,7 +7,6 @@ enum PackageType : string
 	case Symfony = "symfony";
 	case Library = "library";
 
-
 	/**
 	 *
 	 */

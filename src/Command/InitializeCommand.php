@@ -6,8 +6,8 @@ use Janus\Composer\ComposerJson;
 use Janus\Exception\InvalidCallException;
 use Janus\Exception\JanusException;
 use Janus\Package\PackageInitializer;
-use Janus\Project\ProjectHelper;
 use Janus\Package\PackageType;
+use Janus\Project\ProjectHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -88,7 +88,7 @@ final class InitializeCommand extends Command
 			if (!$composerJson->hasType())
 			{
 				$io->writeln("• Your composer.json has no type set");
-				$io->writeln(sprintf(
+				$io->writeln(\sprintf(
 					"• Setting it to the type <fg=blue>%s</> (according to your selection <fg=magenta>%s</>)",
 					$packageType->getComposerType(),
 					$packageType->value,
@@ -157,6 +157,7 @@ final class InitializeCommand extends Command
 		if (null !== $packageType)
 		{
 			$io->writeln("• Automatically detected type from the package type in your composer.json");
+
 			return $packageType;
 		}
 

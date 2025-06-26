@@ -14,6 +14,7 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Janus\Command\InitializeCommand;
+use Janus\Type\PackageType;
 use Symfony\Component\Process\Process;
 
 /**
@@ -95,17 +96,31 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 		$io = $event->getIO();
 		$io->write("\n<fg=magenta>Janus update detected, running janus update</>\n");
 
-		$selected = $io->select(
-			"What are you currently using?",
-			InitializeCommand::ALLOWED_TYPES,
-			"library",
+		$packageType = PackageType::tryFromComposerType(
+			$event->getComposer()->getPackage()->getType()
 		);
-		$type = InitializeCommand::ALLOWED_TYPES[$selected] ?? null;
+
+		if (null === $packageType)
+		{
+			$selected = $io->select(
+				"What are you currently using?",
+				InitializeCommand::ALLOWED_TYPES,
+				"library",
+			);
+			$packageType = PackageType::tryFromComposerType(InitializeCommand::ALLOWED_TYPES[$selected] ?? null);
+		}
+		else
+		{
+			$io->write(\sprintf(
+				"Detected package type <fg=yellow>%s</>",
+				$packageType->value,
+			));
+		}
 
 		$vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
 		\assert(\is_string($vendorDir));
 
-		$success = $this->runJanus($io, $vendorDir, $type);
+		$success = $this->runJanus($io, $vendorDir, $packageType);
 
 		if ($success)
 		{
@@ -123,7 +138,7 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 	private function runJanus (
 		IOInterface $io,
 		string $vendorDir,
-		?string $type,
+		?PackageType $type,
 	) : bool
 	{
 		$command = [
@@ -133,7 +148,7 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 
 		if (null !== $type)
 		{
-			$command[] = $type;
+			$command[] = $type->value;
 		}
 
 		$command[] = "--no-auto-install";
@@ -154,7 +169,7 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 	 * @inheritDoc
 	 */
 	#[\Override]
-	public static function getSubscribedEvents ()
+	public static function getSubscribedEvents () : array
 	{
 		return [
 			PackageEvents::POST_PACKAGE_INSTALL => "checkForJanusOperations",

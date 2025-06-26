@@ -1,3 +1,9 @@
+1.5.2
+=====
+
+* (improvement) Add option to not automatically run `composer update` after Janus finished.
+
+
 1.5.1
 =====
 

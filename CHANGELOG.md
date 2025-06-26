@@ -1,7 +1,8 @@
-1.5.2
+1.6.0
 =====
 
 * (improvement) Add option to not automatically run `composer update` after Janus finished.
+* (feature) Add composer plugin to run composer automatically.
 
 
 1.5.1

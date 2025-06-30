@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Janus\Project;
+namespace Janus\Package;
 
 use Janus\Composer\ComposerJson;
 use Janus\Exception\ComposerNotFoundException;
@@ -10,7 +10,7 @@ use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 use Torr\Cli\Console\Style\TorrStyle;
 
-final readonly class ProjectHelper
+final readonly class PackageManager
 {
 	private string $initDir;
 	private string $cwd;

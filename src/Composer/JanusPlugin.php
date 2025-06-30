@@ -143,7 +143,7 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 	) : bool
 	{
 		$command = [
-			"{$vendorDir}/bin/janus",
+			$this->findJanusExecutable($vendorDir),
 			"init",
 		];
 
@@ -164,6 +164,21 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 		);
 
 		return $output->isSuccessful();
+	}
+
+	/**
+	 * Finds the path to the janus executable
+	 */
+	private function findJanusExecutable (string $vendorDir) : string
+	{
+		// first check if it's installed in the project via composer
+		if (is_dir("{$vendorDir}/bin/janus"))
+		{
+			return "{$vendorDir}/bin/janus";
+		}
+
+		// otherwise just fetch the executable from the library and run it
+		return dirname(__DIR__, 2) . "/bin/janus";
 	}
 
 	/**

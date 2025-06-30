@@ -7,7 +7,7 @@ use Janus\Exception\InvalidCallException;
 use Janus\Exception\JanusException;
 use Janus\Package\PackageInitializer;
 use Janus\Package\PackageType;
-use Janus\Project\ProjectHelper;
+use Janus\Package\PackageManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,7 +56,7 @@ final class InitializeCommand extends Command
 	protected function execute (InputInterface $input, OutputInterface $output) : int
 	{
 		$io = new TorrStyle($input, $output);
-		$projectHelper = new ProjectHelper($io);
+		$projectHelper = new PackageManager($io);
 		$packageInitializer = new PackageInitializer();
 
 		$io->title("Janus: Initialize");

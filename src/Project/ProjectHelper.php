@@ -12,7 +12,7 @@ use Torr\Cli\Console\Style\TorrStyle;
 
 final readonly class ProjectHelper
 {
-	private const string INIT_DIR = __DIR__ . "/../../_init";
+	private string $initDir;
 	private string $cwd;
 
 	/**
@@ -21,6 +21,7 @@ final readonly class ProjectHelper
 		private ?TorrStyle $io = null,
 	)
 	{
+		$this->initDir = dirname(__DIR__, 2) . "/_init";
 		$this->cwd = (string) getcwd();
 	}
 
@@ -29,7 +30,7 @@ final readonly class ProjectHelper
 	 */
 	public function copyInitFilesIntoProject (PackageType $packageType) : void
 	{
-		$sourceDir = self::INIT_DIR . "/{$packageType->value}/.";
+		$sourceDir = "{$this->initDir}/{$packageType->value}/.";
 
 		$this->runProcessInProject([
 			"cp",

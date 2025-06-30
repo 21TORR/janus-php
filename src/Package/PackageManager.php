@@ -5,7 +5,6 @@ namespace Janus\Package;
 use Janus\Composer\ComposerJson;
 use Janus\Exception\ComposerNotFoundException;
 use Janus\Exception\InvalidSetupException;
-use Janus\Package\PackageType;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 use Torr\Cli\Console\Style\TorrStyle;
@@ -21,7 +20,7 @@ final readonly class PackageManager
 		private ?TorrStyle $io = null,
 	)
 	{
-		$this->initDir = dirname(__DIR__, 2) . "/_init";
+		$this->initDir = \dirname(__DIR__, 2) . "/_init";
 		$this->cwd = (string) getcwd();
 	}
 

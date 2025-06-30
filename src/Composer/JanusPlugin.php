@@ -178,7 +178,7 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 		}
 
 		// otherwise just fetch the executable from the library and run it
-		return dirname(__DIR__, 2) . "/bin/janus";
+		return \dirname(__DIR__, 2) . "/bin/janus";
 	}
 
 	/**

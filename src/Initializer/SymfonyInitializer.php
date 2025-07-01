@@ -9,7 +9,7 @@ final readonly class SymfonyInitializer
 	/**
 	 *
 	 */
-	public function initialize (TorrStyle $io) : int
+	public function initialize (TorrStyle $io, bool $runComposerAutomatically = true) : int
 	{
 		$helper = new InitializeHelper($io);
 
@@ -49,8 +49,15 @@ final readonly class SymfonyInitializer
 			"phpstan" => "vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi -v",
 		]);
 
-		$io->writeln("• Running <fg=blue>composer update</>...");
-		$helper->runComposerInProject(["update"]);
+		if ($runComposerAutomatically)
+		{
+			$io->writeln("• Running <fg=blue>composer update</>...");
+			$helper->runComposerInProject(["update"]);
+		}
+		else
+		{
+			$io->caution("Your project was updated, you should run `composer update`.");
+		}
 
 		return 0;
 	}

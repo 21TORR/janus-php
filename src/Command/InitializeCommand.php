@@ -7,12 +7,13 @@ use Janus\Initializer\SymfonyInitializer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Torr\Cli\Console\Style\TorrStyle;
 
 final class InitializeCommand extends Command
 {
-	private const array ALLOWED_TYPES = [
+	public const array ALLOWED_TYPES = [
 		"symfony",
 		"library",
 	];
@@ -42,6 +43,11 @@ final class InitializeCommand extends Command
 				"The project type to initialize",
 				default: null,
 				suggestedValues: self::ALLOWED_TYPES,
+			)
+			->addOption(
+				"no-auto-install",
+				mode: InputOption::VALUE_NONE,
+				description: "Whether to automatically run composer after changing anything",
 			);
 	}
 
@@ -73,12 +79,19 @@ final class InitializeCommand extends Command
 
 		\assert(\is_string($type));
 
+		$io->comment(\sprintf(
+			"Initializing janus for type <fg=blue>%s</>",
+			$type,
+		));
+
+		$runComposerAutomatically = !$input->getOption("no-auto-install");
+
 		try
 		{
 			return match ($type)
 			{
-				"symfony" => (new SymfonyInitializer())->initialize($io),
-				"library" => (new LibraryInitializer())->initialize($io),
+				"symfony" => (new SymfonyInitializer())->initialize($io, $runComposerAutomatically),
+				"library" => (new LibraryInitializer())->initialize($io, $runComposerAutomatically),
 			};
 		}
 		catch (\Throwable $exception)

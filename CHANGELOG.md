@@ -6,6 +6,7 @@
 * (feature) Write back the package type, if none was set.
 * (improvement) Add option to not automatically run `composer update` after Janus finished.
 * (feature) Add composer plugin to run composer automatically.
+* (bug) Update config to fix bug in PHPStan config reader.
 
 
 1.5.1

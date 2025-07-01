@@ -2,8 +2,12 @@
 
 namespace Janus\Command;
 
-use Janus\Initializer\LibraryInitializer;
-use Janus\Initializer\SymfonyInitializer;
+use Janus\Composer\ComposerJson;
+use Janus\Exception\InvalidCallException;
+use Janus\Exception\JanusException;
+use Janus\Package\PackageInitializer;
+use Janus\Package\PackageManager;
+use Janus\Package\PackageType;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,10 +20,6 @@ final class InitializeCommand extends Command
 	public const array ALLOWED_TYPES = [
 		"symfony",
 		"library",
-	];
-	private const array LEGACY_COMMANDS = [
-		"init-symfony",
-		"init-library",
 	];
 
 	/**
@@ -36,13 +36,12 @@ final class InitializeCommand extends Command
 	{
 		$this
 			->setDescription("Initializes a given command")
-			->setAliases(self::LEGACY_COMMANDS)
 			->addArgument(
 				"type",
 				InputArgument::OPTIONAL,
 				"The project type to initialize",
 				default: null,
-				suggestedValues: self::ALLOWED_TYPES,
+				suggestedValues: PackageType::values(),
 			)
 			->addOption(
 				"no-auto-install",
@@ -57,48 +56,115 @@ final class InitializeCommand extends Command
 	protected function execute (InputInterface $input, OutputInterface $output) : int
 	{
 		$io = new TorrStyle($input, $output);
+		$projectHelper = new PackageManager($io);
+		$packageInitializer = new PackageInitializer();
+
 		$io->title("Janus: Initialize");
-
-		if (\in_array($input->getFirstArgument(), self::LEGACY_COMMANDS, true))
-		{
-			$io->caution("You are using a deprecated command. Use the `init` command instead.");
-		}
-
-		$type = $input->getArgument("type");
-		\assert(null === $type || \is_string($type));
-
-		if (!\in_array($type, self::ALLOWED_TYPES, true))
-		{
-			if (null !== $type)
-			{
-				$io->error("Used invalid type: {$type}");
-			}
-
-			$type = $io->choice("Please select the type to initialize", self::ALLOWED_TYPES);
-		}
-
-		\assert(\is_string($type));
-
-		$io->comment(\sprintf(
-			"Initializing janus for type <fg=blue>%s</>",
-			$type,
-		));
-
-		$runComposerAutomatically = !$input->getOption("no-auto-install");
+		$runComposerAutomatically = !$input->getOption('no-auto-install');
 
 		try
 		{
-			return match ($type)
-			{
-				"symfony" => (new SymfonyInitializer())->initialize($io, $runComposerAutomatically),
-				"library" => (new LibraryInitializer())->initialize($io, $runComposerAutomatically),
-			};
-		}
-		catch (\Throwable $exception)
-		{
-			$io->error("Running janus failed: {$exception->getMessage()}");
+			$composerJson = $projectHelper->loadComposerJson();
+			$packageType = $this->fetchPackageType($io, $composerJson, $input->getArgument("type"));
 
-			return 2;
+			$io->writeln(\sprintf(
+				"• Initializing janus for type <fg=magenta>%s</>",
+				$packageType->value,
+			));
+
+			$io->writeln("• Copying main init files");
+			$projectHelper->copyInitFilesIntoProject($packageType);
+
+			$io->writeln("• Updating <fg=yellow>composer.json</>");
+
+			// write basics
+			match ($packageType)
+			{
+				PackageType::Symfony => $packageInitializer->initializeSymfony($composerJson),
+				PackageType::Library => $packageInitializer->initializeLibrary($composerJson),
+			};
+
+			// set project type (only if it is not yet set. We want to keep even unknown values here, so only set it if it is unset)
+			if (!$composerJson->hasType())
+			{
+				$io->writeln("• Your composer.json has no type set");
+				$io->writeln(\sprintf(
+					"• Setting it to the type <fg=blue>%s</> (according to your selection <fg=magenta>%s</>)",
+					$packageType->getComposerType(),
+					$packageType->value,
+				));
+
+				$composerJson->replaceConfig([
+					"type" => $packageType->getComposerType(),
+				]);
+			}
+
+			$projectHelper->writeComposerJson($composerJson);
+
+			if ($runComposerAutomatically)
+			{
+				$io->writeln("• Running <fg=blue>composer update</>...");
+				$projectHelper->runComposerInProject(["update"]);
+			}
+			else
+			{
+				$io->caution("Your project was updated, you should run `composer update`.");
+			}
+
+			return self::SUCCESS;
 		}
+		catch (JanusException $exception)
+		{
+			$io->error($exception->getMessage());
+
+			return self::FAILURE;
+		}
+	}
+
+	/**
+	 *
+	 */
+	private function fetchPackageType (
+		TorrStyle $io,
+		ComposerJson $composerJson,
+		mixed $typeCliArgument,
+	) : PackageType
+	{
+		// first try CLI parameter
+		$packageType = \is_string($typeCliArgument)
+			? PackageType::tryFrom($typeCliArgument)
+			: null;
+
+		if (null !== $packageType)
+		{
+			return $packageType;
+		}
+
+		// then error out if the user explicitly passed an invalid value
+		if (null !== $typeCliArgument)
+		{
+			throw new InvalidCallException(\sprintf(
+				"Invalid type selected: %s",
+				\is_scalar($typeCliArgument)
+					? $typeCliArgument
+					: get_debug_type($typeCliArgument),
+			));
+		}
+
+		// no CLI parameter passed, so test if we can detect the type from composer.json
+		$packageType = $composerJson->getType();
+
+		if (null !== $packageType)
+		{
+			$io->writeln("• Automatically detected type from the package type in your composer.json");
+
+			return $packageType;
+		}
+
+		// could not detect, so just ask for it
+		$type = $io->choice("Please select the type to initialize", PackageType::values());
+		\assert(\is_string($type));
+
+		return PackageType::from($type);
 	}
 }

@@ -33,3 +33,6 @@ parameters:
 		-
 			identifier: method.deprecated
 			path: %currentWorkingDirectory%/tests/*
+
+rules:
+	- Janus\Phpstan\Rule\TaskRule

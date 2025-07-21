@@ -1,4 +1,4 @@
-2.1.0 (unreleased)
+2.1.0
 =====
 
 * (feature) Add custom PHPStan rule to detect wrong `Task` class names. 

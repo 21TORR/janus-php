@@ -1,10 +1,3 @@
-2.1.0
-=====
-
-* (feature) Add custom PHPStan rule to detect wrong `Task` class names. 
-* (improvement) Disable `doctrine.columnType` rule, as it leads to too many false positives in combination with Symfony forms and entities.
-
-
 2.0.0
 =====
 
@@ -14,6 +7,8 @@
 * (improvement) Add option to not automatically run `composer update` after Janus finished.
 * (feature) Add composer plugin to run composer automatically.
 * (bug) Update config to fix bug in PHPStan config reader.
+* (feature) Add custom PHPStan rule to detect wrong `Task` class names.
+* (improvement) Disable `doctrine.columnType` rule, as it leads to too many false positives in combination with Symfony forms and entities.
 
 
 1.5.1

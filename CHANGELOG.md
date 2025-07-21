@@ -2,6 +2,7 @@
 =====
 
 * (feature) Add custom PHPStan rule to detect wrong `Task` class names. 
+* (improvement) Disable `doctrine.columnType` rule, as it leads to too many false positives in combination with Symfony forms and entities.
 
 
 2.0.0

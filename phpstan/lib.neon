@@ -33,6 +33,9 @@ parameters:
 		-
 			identifier: method.deprecated
 			path: %currentWorkingDirectory%/tests/*
+		# Using this will have a lot of false-positives, as entities are often used as form
+		# entries and there the fields need to be nullable.
+		- identifier: doctrine.columnType
 
 rules:
 	- Janus\Phpstan\Rule\TaskRule

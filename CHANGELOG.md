@@ -1,3 +1,9 @@
+2.0.1
+=====
+
+* (improvement) Disable automatically running janus, as it often fails.
+
+
 2.0.0
 =====
 

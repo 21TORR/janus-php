@@ -14,5 +14,5 @@ $output = new ConsoleOutput();
 $allowedCommands = ["init-symfony", "init-library"];
 
 $application = new Application("Janus");
-$application->add(new InitializeCommand());
+$application->addCommand(new InitializeCommand());
 $application->run();

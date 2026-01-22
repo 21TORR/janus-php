@@ -1,3 +1,9 @@
+2.0.2
+=====
+
+* (bug) Fix deprecation in Symfony.
+
+
 2.0.1
 =====
 

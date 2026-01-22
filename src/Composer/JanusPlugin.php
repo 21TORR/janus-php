@@ -85,7 +85,7 @@ class JanusPlugin implements PluginInterface, EventSubscriberInterface
 		$this->hadJanusOperation = false;
 
 		$io = $event->getIO();
-		$io->write("\n<fg=magenta>Janus update detected, you need to run janus:</>\n");
+		$io->write("\n<fg=red>Janus update detected, you need to run janus:</>\n");
 		$io->write("\n");
 		$io->write("  ╭───────────────────────────────────────────╮\n");
 		$io->write("  │ <fg=magenta>$ composer exec janus init</> │\n");

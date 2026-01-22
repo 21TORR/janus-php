@@ -36,14 +36,14 @@ readonly class PackageInitializer
 
 		$composerJson->updateScripts("fix-lint", [
 			"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
-			"cs-fixer" => "PHP_CS_FIXER_IGNORE_ENV=1 vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
+			"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --allow-unsupported-php-version=yes --no-interaction --ansi",
 		]);
 
 		$composerJson->updateScripts("lint", [
 			"lint:yaml" => "bin/console lint:yaml config --parse-tags",
 			"lint:twig" => "bin/console lint:twig templates",
 			"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
-			"cs-fixer" => "PHP_CS_FIXER_IGNORE_ENV=1 vendor-bin/cs-fixer/vendor/bin/php-cs-fixer check --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
+			"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer check --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --allow-unsupported-php-version=yes --no-interaction --ansi",
 		]);
 
 		$composerJson->updateScripts("test", [
@@ -77,12 +77,12 @@ readonly class PackageInitializer
 
 		$composerJson->updateScripts("fix-lint", [
 			"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --ansi",
-			"cs-fixer" => "PHP_CS_FIXER_IGNORE_ENV=1 vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
+			"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --allow-unsupported-php-version=yes --no-interaction --ansi",
 		]);
 
 		$composerJson->updateScripts("lint", [
 			"normalize" => "@composer bin c-norm normalize \"$(pwd)/composer.json\" --indent-style tab --indent-size 1 --dry-run --ansi",
-			"cs-fixer" => "PHP_CS_FIXER_IGNORE_ENV=1 vendor-bin/cs-fixer/vendor/bin/php-cs-fixer check --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --no-interaction --ansi",
+			"cs-fixer" => "vendor-bin/cs-fixer/vendor/bin/php-cs-fixer check --diff --config vendor-bin/cs-fixer/vendor/21torr/php-cs-fixer/.php-cs-fixer.dist.php --allow-unsupported-php-version=yes --no-interaction --ansi",
 		]);
 
 		$composerJson->updateScripts("test", [

@@ -1,3 +1,9 @@
+2.0.3
+=====
+
+* (improvement) Validate doctrine schema in the CI.
+
+
 2.0.2
 =====
 

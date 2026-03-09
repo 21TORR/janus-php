@@ -1,3 +1,10 @@
+2.1.0
+=====
+
+* (feature) Require Symfony 8+
+* (improvement) Remove invalid import directory for Symfony 8.
+
+
 2.0.3
 =====
 

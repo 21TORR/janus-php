@@ -1,3 +1,9 @@
+2.1.1
+=====
+
+* (improvement) Add `hosting:validate-app` to symfony `test` scripts.
+
+
 2.1.0
 =====
 

@@ -49,6 +49,7 @@ readonly class PackageInitializer
 		$composerJson->updateScripts("test", [
 			"doctrine:schema:validate" => "bin/console doctrine:schema:validate --skip-sync",
 			"phpstan" => "vendor-bin/phpstan/vendor/bin/phpstan analyze -c phpstan.neon . --ansi -v",
+			"hosting:validate-app" => "bin/console hosting:validate-app",
 		]);
 	}
 
